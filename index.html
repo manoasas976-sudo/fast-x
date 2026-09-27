@@ -11,16 +11,16 @@
 
 <style>
 :root{
-  --bg:#030305; --surface:rgba(14,16,21,0.95); --surface2:rgba(22,25,34,0.98); --line:rgba(255,255,255,0.12);
+  --bg:#030305; --surface:rgba(14,16,21,0.96); --surface2:rgba(22,25,34,0.98); --line:rgba(255,255,255,0.12);
   --text:#F3F4F6; --muted:#A0AEC0; --neon-red:#FF1E1E; --neon-red-glow:rgba(255,30,30,0.7);
   --neon-cyan:#00F0FF; --neon-cyan-glow:rgba(0,240,255,0.5); --gold:#F5B027;
 }
 
-*{box-sizing:border-box;}
-html{scroll-padding-top:90px;scroll-behavior:smooth;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-padding-top:80px;scroll-behavior:smooth;}
 body{
-  margin:0;background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;
-  line-height:1.7;overflow-x:hidden;position:relative; width: 100%;
+  background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;
+  line-height:1.6;overflow-x:hidden;position:relative;width:100%;
 }
 
 /* Dynamic Image Slider Background */
@@ -67,14 +67,14 @@ h1,h2,h3,h4{font-weight:900;margin:0 0 .4em;letter-spacing:-.02em;}
 p{color:var(--muted);margin:0 0 1em;}
 section{padding:70px 0;border-bottom:1px solid var(--line);position:relative;}
 
-/* Micro-Interactions & Scroll Animations */
+/* Animations */
 .reveal {
   opacity: 0; transform: translateY(30px) scale(0.98);
   transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
 
-/* Custom Neon Buttons */
+/* Buttons */
 button, .btn{
   font-family:inherit;cursor:pointer;border:none;padding:14px 28px;
   font-weight:800;font-size:1rem;background:var(--neon-red);color:#fff;
@@ -104,19 +104,19 @@ button:active, .btn:active{ transform:translateY(1px) scale(0.98); }
 }
 .btn-details:hover { border-color: var(--neon-cyan); color: #FFF; background: rgba(0,240,255,0.05); }
 
-/* Floating Audio Toggle Button */
+/* Audio Button */
 .audio-btn {
   position: fixed; bottom: 20px; left: 20px; z-index: 2500;
   background: var(--surface2); border: 1px solid var(--neon-cyan);
   color: var(--neon-cyan); padding: 10px 16px; border-radius: 30px;
-  font-weight: 800; font-size: 0.9rem; box-shadow: 0 0 15px var(--neon-cyan-glow);
+  font-weight: 800; font-size: 0.85rem; box-shadow: 0 0 15px var(--neon-cyan-glow);
   cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.3s;
 }
 .audio-btn:hover { transform: scale(1.05); background: var(--neon-cyan); color: #000; }
 
-/* Nav Header */
+/* Navbar & Mobile Menu Drawer */
 nav{
-  position:sticky;top:0;z-index:1000;background:rgba(3,3,5,0.92);backdrop-filter:blur(20px);
+  position:sticky;top:0;z-index:2000;background:rgba(3,3,5,0.95);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--line);
 }
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:75px;}
@@ -126,9 +126,19 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
   text-shadow:0 0 15px var(--neon-red-glow); display:inline-block; letter-spacing: 1px;
 }
 
-.navlinks{display:flex;gap:18px;font-size:0.95rem;font-weight:700;align-items:center;}
+.navlinks{display:flex;gap:20px;font-size:0.95rem;font-weight:700;align-items:center;}
 .navlinks a{transition:all .2s;}
 .navlinks a:hover{color:var(--neon-cyan);text-shadow:0 0 10px var(--neon-cyan-glow);}
+
+/* Mobile Menu Toggle Icon */
+.menu-burger {
+  display: none; flex-direction: column; justify-content: space-between;
+  width: 30px; height: 21px; background: transparent; border: none; cursor: pointer; z-index: 2001;
+}
+.menu-burger span {
+  display: block; width: 100%; height: 3px; background: var(--neon-cyan); border-radius: 3px;
+  transition: all 0.3s ease-in-out; box-shadow: 0 0 8px var(--neon-cyan-glow);
+}
 
 .user-badge{
   background:linear-gradient(135deg, rgba(245,176,39,0.2), rgba(0,240,255,0.2));
@@ -137,19 +147,19 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 }
 
 /* Hero Section */
-.hero{padding:80px 0 60px;text-align:center;}
-.hero h1{font-size:clamp(2.2rem, 6vw, 4.5rem);line-height:1.2;font-weight:900;}
+.hero{padding:70px 0 50px;text-align:center;}
+.hero h1{font-size:clamp(2rem, 5.5vw, 4rem);line-height:1.25;font-weight:900;}
 .hero h1 span{color:var(--neon-red);text-shadow:0 0 30px var(--neon-red-glow);}
-.hero p.lead{font-size:1.1rem;max-width:680px;margin:15px auto 30px;color:#CBD5E0;}
+.hero p.lead{font-size:1.05rem;max-width:680px;margin:15px auto 30px;color:#CBD5E0;padding: 0 10px;}
 
 /* Services Grid */
 .sec-head{text-align:center;max-width:700px;margin:0 auto 35px;padding: 0 15px;}
-.sec-head h2{font-size:clamp(2rem, 5vw, 2.6rem);}
+.sec-head h2{font-size:clamp(1.8rem, 4.5vw, 2.5rem);}
 .sec-head h2 span{color:var(--neon-cyan);text-shadow:0 0 20px var(--neon-cyan-glow);}
 
 .svc-grid-modern {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
 
@@ -168,7 +178,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .price-tag-modern {
   display: inline-block; background: rgba(245, 176, 39, 0.15); border: 1px solid var(--gold);
   color: var(--gold); font-weight: 800; padding: 5px 12px; border-radius: 20px;
-  font-size: 0.9rem; margin-bottom: 12px; box-shadow: 0 0 10px rgba(245, 176, 39, 0.2);
+  font-size: 0.88rem; margin-bottom: 12px; box-shadow: 0 0 10px rgba(245, 176, 39, 0.2);
 }
 
 .badge-vip {
@@ -189,7 +199,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
   gap: 20px; align-items: center; box-shadow: 0 0 30px var(--neon-cyan-glow);
 }
 .detail-card.vip-theme { border-color: var(--neon-red); box-shadow: 0 0 30px var(--neon-red-glow); }
-.detail-img { width: 100%; height: 100%; min-height: 250px; object-fit: cover; }
+.detail-img { width: 100%; height: 100%; min-height: 240px; object-fit: cover; }
 .detail-desc { padding: 25px; }
 
 @keyframes fadeIn {
@@ -210,9 +220,9 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .location-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 25px; align-items: center; margin-top: 25px;
 }
-.social-links { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.social-links { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
 .social-btn {
-  padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.9rem;
+  padding: 10px 16px; border-radius: 10px; font-weight: 800; font-size: 0.88rem;
   display: inline-flex; align-items: center; gap: 8px; background: var(--surface2);
   border: 1px solid var(--line); transition: all 0.3s;
 }
@@ -232,7 +242,7 @@ label{display:block;font-size:0.88rem;color:var(--muted);margin-bottom:6px;font-
 
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);
-  z-index:2000;display:flex;align-items:center;justify-content:center;padding:15px;
+  z-index:3000;display:flex;align-items:center;justify-content:center;padding:15px;
   opacity:0;pointer-events:none;transition:opacity .3s;
 }
 .modal-overlay.active{opacity:1;pointer-events:auto;}
@@ -245,19 +255,25 @@ label{display:block;font-size:0.88rem;color:var(--muted);margin-bottom:6px;font-
 
 footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);font-size: 0.9rem;}
 
-/* Mobile Responsive Media Queries Adjustments */
+/* Responsive Adaptations for Tablets & Mobiles */
 @media(max-width: 900px){
   .catering-card, .location-grid, .detail-card { grid-template-columns: 1fr; }
-  .catering-card img { order: -1; } /* لجعل الصورة تظهر فوق النص في الكافيه للموبايل */
-  .detail-card img { order: -1; }
+  .catering-card img, .detail-card img { order: -1; }
 }
 
 @media(max-width: 768px){
-  .navlinks { display: none; } /* إخفاء القائمة العادية في الموبايل لعدم الازدحام، وتفعيل زر القائمة السريعة */
-  nav .wrap { justify-content: space-between; }
-  .hero { padding: 50px 0 40px; }
-  section { padding: 50px 0; }
-  .audio-btn { bottom: 15px; left: 15px; padding: 8px 12px; font-size: 0.8rem; }
+  .menu-burger { display: flex; }
+  .navlinks {
+    position: fixed; top: 75px; right: -100%; width: 100%; height: calc(100vh - 75px);
+    background: rgba(3,3,5,0.98); backdrop-filter: blur(25px);
+    flex-direction: column; justify-content: center; align-items: center; gap: 25px;
+    transition: right 0.4s ease-in-out; border-left: 1px solid var(--line);
+    font-size: 1.2rem; z-index: 1999;
+  }
+  .navlinks.active { right: 0; }
+  .hero { padding: 40px 0 30px; }
+  section { padding: 45px 0; }
+  .audio-btn { bottom: 12px; left: 12px; padding: 7px 12px; font-size: 0.75rem; }
   #bookForm { grid-template-columns: 1fr !important; }
 }
 </style>
@@ -287,12 +303,24 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
 </div>
 
 <nav>
-  <div class="wrap">
+  <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
     <a href="#home" class="brand-standard">FAST X</a>
-    <div style="display:flex; align-items:center; gap:12px;">
+    
+    <div class="navlinks" id="navLinks">
+      <a href="#home" onclick="toggleMenu()">الرئيسية</a>
+      <a href="#services" onclick="toggleMenu()">الخدمات والأقسام</a>
+      <a href="#catering" onclick="toggleMenu()">الضيافة والكافيه</a>
+      <a href="#location" onclick="toggleMenu()">الموقع والتواصل</a>
+      <a href="#booking" onclick="toggleMenu()">احجز الآن</a>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:10px;">
       <div id="userArea">
-        <button class="btn cyan" style="padding:7px 14px;font-size:0.85rem;" onclick="openAuthModal()">دخول / نقاطك 💎</button>
+        <button class="btn cyan" style="padding:7px 12px;font-size:0.8rem;" onclick="openAuthModal()">دخول / نقاطك 💎</button>
       </div>
+      <button class="menu-burger" id="menuBtn" onclick="toggleMenu()" aria-label="القائمة">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
@@ -302,9 +330,9 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
     <div class="wrap reveal">
       <h1>أقوى مجمع ألعاب وترفيه في <span>FAST X</span></h1>
       <p class="lead">استمتع بأفضل تجربة ألعاب ومحاكاة واقعية: أجهزة PS5 VIP، محاكيات سباق Moza R5، طاولات بلياردو، وقاعات سينما خاصة.</p>
-      <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:25px;">
-        <a class="btn" href="#booking" style="padding:12px 24px;">احجز رومك دلوقتي</a>
-        <a class="btn cyan" href="#services" style="padding:12px 24px;">استكشف الأقسام</a>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
+        <a class="btn" href="#booking" style="padding:12px 22px;">احجز رومك دلوقتي</a>
+        <a class="btn cyan" href="#services" style="padding:12px 22px;">استكشف الأقسام</a>
       </div>
     </div>
   </section>
@@ -373,8 +401,8 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
           <div class="detail-card">
             <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=800" class="detail-img" alt="صالة البلايستيشن العادية">
             <div class="detail-desc">
-              <h3 style="font-size:1.5rem; color:var(--neon-cyan); margin-bottom:10px;">صالة البلايستيشن العادية العامة</h3>
-              <p style="font-size:0.95rem; line-height:1.7;">أجواء حماسية وتحدي مع أصحابك. مجهزة بأحدث أجهزة PS5 وشاشات 55 بوصة بدقة 4K ومعدل تحديث 120Hz لأعلى سلاسة.</p>
+              <h3 style="font-size:1.4rem; color:var(--neon-cyan); margin-bottom:10px;">صالة البلايستيشن العادية العامة</h3>
+              <p style="font-size:0.92rem; line-height:1.7;">أجواء حماسية وتحدي مع أصحابك. مجهزة بأحدث أجهزة PS5 وشاشات 55 بوصة بدقة 4K ومعدل تحديث 120Hz لأعلى سلاسة.</p>
             </div>
           </div>
         </div>
@@ -383,8 +411,8 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
           <div class="detail-card vip-theme">
             <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800" class="detail-img" alt="بلايستيشن VIP">
             <div class="detail-desc">
-              <h3 style="font-size:1.5rem; color:var(--neon-red); margin-bottom:10px;">رومات البلايستيشن VIP (خصوصية مطلقة)</h3>
-              <p style="font-size:0.95rem; line-height:1.7;">غرفة مغلقة خاصة بك: عزل صوت هيدروليكي ممتاز، شاشة 65 بوصة 4K OLED، كنب جلد، ونظام صوتي Soundbar تفاعلي.</p>
+              <h3 style="font-size:1.4rem; color:var(--neon-red); margin-bottom:10px;">رومات البلايستيشن VIP (خصوصية مطلقة)</h3>
+              <p style="font-size:0.92rem; line-height:1.7;">غرفة مغلقة خاصة بك: عزل صوت هيدروليكي ممتاز، شاشة 65 بوصة 4K OLED، كنب جلد، ونظام صوتي Soundbar تفاعلي.</p>
             </div>
           </div>
         </div>
@@ -393,8 +421,8 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
           <div class="detail-card">
             <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800" class="detail-img" alt="محاكي سباق">
             <div class="detail-desc">
-              <h3 style="font-size:1.5rem; color:var(--neon-cyan); margin-bottom:10px;">أنظمة محاكاة السيارات Moza R5</h3>
-              <p style="font-size:0.95rem; line-height:1.7;">تجربة سباقات الحلبات والدريفت الحقيقية مع أنظمة Moza R5 Direct Drive وشاشات منحنية ثلاثية Triple 32 برؤية 180 درجة.</p>
+              <h3 style="font-size:1.4rem; color:var(--neon-cyan); margin-bottom:10px;">أنظمة محاكاة السيارات Moza R5</h3>
+              <p style="font-size:0.92rem; line-height:1.7;">تجربة سباقات الحلبات والدريفت الحقيقية مع أنظمة Moza R5 Direct Drive وشاشات منحنية ثلاثية Triple 32 برؤية 180 درجة.</p>
             </div>
           </div>
         </div>
@@ -403,8 +431,8 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
           <div class="detail-card vip-theme">
             <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=800" class="detail-img" alt="سينما خاصة">
             <div class="detail-desc">
-              <h3 style="font-size:1.5rem; color:var(--neon-red); margin-bottom:10px;">قاعة السينما الخاصة VIP Cinema Room</h3>
-              <p style="font-size:0.95rem; line-height:1.7;">تجربة سينمائية مستقلة تسع من 8 إلى 10 أفراد بشاشة بروجكتور 4K عملاقة، صوت محيطي، ومقاعد Lazy Boy.</p>
+              <h3 style="font-size:1.4rem; color:var(--neon-red); margin-bottom:10px;">قاعة السينما الخاصة VIP Cinema Room</h3>
+              <p style="font-size:0.92rem; line-height:1.7;">تجربة سينمائية مستقلة تسع من 8 إلى 10 أفراد بشاشة بروجكتور 4K عملاقة، صوت محيطي، ومقاعد Lazy Boy.</p>
             </div>
           </div>
         </div>
@@ -422,16 +450,16 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
       <div class="catering-card reveal">
         <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=800" alt="FAST X Refreshments" class="catering-img">
         <div class="catering-desc">
-          <h3 style="font-size:1.5rem;color:var(--neon-cyan);">مشروبات باردة وقهوة مختصة</h3>
-          <p style="font-size:0.95rem;">من الإسبريسو والقهوة المثلجة إلى مشروبات الطاقة الباردة لمساعدة على التركيز المستمر.</p>
+          <h3 style="font-size:1.4rem;color:var(--neon-cyan);">مشروبات باردة وقهوة مختصة</h3>
+          <p style="font-size:0.92rem;">من الإسبريسو والقهوة المثلجة إلى مشروبات الطاقة الباردة لمساعدة على التركيز المستمر.</p>
         </div>
       </div>
 
       <div class="catering-card reveal" style="margin-top:20px;">
         <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800" alt="FAST X Food" class="catering-img">
         <div class="catering-desc">
-          <h3 style="font-size:1.5rem;color:var(--neon-red);">سناكس ووجبات سريعة ساخنة</h3>
-          <p style="font-size:0.95rem;">تشكيلة مختارة من البرجر الساخن، السندوتشات السريعة، وأطباق البطاطس المتبلة الساخنة أثناء اللعب.</p>
+          <h3 style="font-size:1.4rem;color:var(--neon-red);">سناكس ووجبات سريعة ساخنة</h3>
+          <p style="font-size:0.92rem;">تشكيلة مختارة من البرجر الساخن، السندوتشات السريعة، وأطباق البطاطس المتبلة الساخنة أثناء اللعب.</p>
         </div>
       </div>
     </div>
@@ -446,8 +474,8 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
 
       <div class="location-grid reveal">
         <div style="background:var(--surface);padding:25px;border-radius:16px;border:1px solid var(--line);">
-          <h3 style="font-size:1.5rem;color:var(--neon-cyan);margin-bottom:12px;">📍 عنوان FAST X Lounge</h3>
-          <p style="font-size:1rem;color:#FFF;margin-bottom:10px;">المريوطية - فيصل، الجيزة، مصر</p>
+          <h3 style="font-size:1.4rem;color:var(--neon-cyan);margin-bottom:12px;">📍 عنوان FAST X Lounge</h3>
+          <p style="font-size:0.98rem;color:#FFF;margin-bottom:10px;">المريوطية - فيصل، الجيزة، مصر</p>
           <p style="font-size:0.9rem;">ساعات العمل: يومياً من **12:00 ظهراً** حتى **04:00 صباحاً**.</p>
           
           <div class="social-links">
@@ -457,10 +485,10 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
           </div>
         </div>
 
-        <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);min-height:280px;">
+        <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);min-height:260px;">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13818.04838605051!2d31.1408!3d29.9932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145845c43d3e813f%3A0x6b7bd1a9c3365fae!2sMarioutiya%2C%20Faisal!5e0!3m2!1sen!2seg!4v1710000000000!5m2!1sen!2seg" 
-            width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            width="100%" height="260" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
     </div>
@@ -497,8 +525,8 @@ footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid 
 
 <div class="modal-overlay" id="authModal">
   <div class="auth-box">
-    <h2 style="text-align:center;margin-bottom:8px;font-size:1.4rem;" id="authTitle">تسجيل الدخول / نقاطك</h2>
-    <p style="text-align:center;font-size:0.85rem;margin-bottom:20px;">اكسب **10 نقاط X-Points** مع كل ساعة لعب واستبدلها برومات مجانية!</p>
+    <h2 style="text-align:center;margin-bottom:8px;font-size:1.3rem;" id="authTitle">تسجيل الدخول / نقاطك</h2>
+    <p style="text-align:center;font-size:0.82rem;margin-bottom:18px;">اكسب **10 نقاط X-Points** مع كل ساعة لعب واستبدلها برومات مجانية!</p>
     
     <form id="loginForm" onsubmit="handleLogin(event)">
       <div style="margin-bottom:12px;"><label>اسم المستخدم أو رقم الموبايل</label><input id="uName" required placeholder="ادخل اسمك"></div>
@@ -532,6 +560,11 @@ function enterWebsite() {
     }).catch(e => console.log("Audio Autoplay handled", e));
   }
   setupScrollReveal();
+}
+
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('active');
 }
 
 function showDetail(detailId) {
