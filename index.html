@@ -1,654 +1,89 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FAST X | Ultimate Gaming Lounge & Cinema</title>
-<meta name="description" content="FAST X - التجمع الأول للألعاب والترفيه: بلايستيشن 5 VIP، محاكيات سباق، سينما خاصة، ومشروبات وسناكس فاخرة.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
-
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>حسابك</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{
-  --bg:#030305; --surface:rgba(14,16,21,0.96); --surface2:rgba(22,25,34,0.98); --line:rgba(255,255,255,0.12);
-  --text:#F3F4F6; --muted:#A0AEC0; --neon-red:#FF1E1E; --neon-red-glow:rgba(255,30,30,0.7);
-  --neon-cyan:#00F0FF; --neon-cyan-glow:rgba(0,240,255,0.5); --gold:#F5B027;
-}
-
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-padding-top:80px;scroll-behavior:smooth;}
-body{
-  background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;
-  line-height:1.6;overflow-x:hidden;position:relative;width:100%;
-}
-
-/* Dynamic Image Slider Background */
-.image-slider-container {
-  position: fixed; inset: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden;
-}
-.bg-slide {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  background-size: cover; background-position: center;
-  opacity: 0; transition: opacity 1.5s ease-in-out, transform 8s linear;
-  transform: scale(1.05); filter: brightness(0.35) contrast(1.15) saturate(1.2);
-}
-.bg-slide.active { opacity: 1; transform: scale(1); }
-
-.bg-overlay {
-  position: fixed; inset: 0; z-index: -1;
-  background: radial-gradient(circle at center, rgba(3,3,5,0.3) 0%, rgba(3,3,5,0.9) 100%),
-              linear-gradient(to bottom, rgba(3,3,5,0.85), transparent 40%, transparent 70%, rgba(3,3,5,0.98));
-}
-
-/* Cinematic Intro Screen */
-#introOverlay {
-  position: fixed; inset: 0; z-index: 3000;
-  background: rgba(3,3,5,0.98); backdrop-filter: blur(20px);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
-  text-align: center; padding: 20px;
-}
-#introOverlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.intro-brand {
-  font-family: 'Permanent Marker', cursive; color: var(--neon-red); font-size: clamp(3rem, 10vw, 4.5rem);
-  text-shadow: 0 0 20px var(--neon-red-glow), 0 0 40px var(--neon-red-glow);
-  letter-spacing: 2px; margin-bottom: 20px;
-  animation: pulseNeon 2s infinite alternate;
-}
-@keyframes pulseNeon {
-  from { text-shadow: 0 0 15px var(--neon-red-glow), 0 0 25px var(--neon-red-glow); transform: scale(1); }
-  to { text-shadow: 0 0 30px var(--neon-red-glow), 0 0 60px var(--neon-red-glow); transform: scale(1.03); }
-}
-
-a{color:inherit;text-decoration:none;}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
-h1,h2,h3,h4{font-weight:900;margin:0 0 .4em;letter-spacing:-.02em;}
-p{color:var(--muted);margin:0 0 1em;}
-section{padding:70px 0;border-bottom:1px solid var(--line);position:relative;}
-
-/* Animations */
-.reveal {
-  opacity: 0; transform: translateY(30px) scale(0.98);
-  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
-
-/* Buttons */
-button, .btn{
-  font-family:inherit;cursor:pointer;border:none;padding:14px 28px;
-  font-weight:800;font-size:1rem;background:var(--neon-red);color:#fff;
-  display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
-  box-shadow:0 0 20px var(--neon-red-glow);
-  transition:all .3s cubic-bezier(0.25, 1, 0.5, 1);
-  text-align: center;
-}
-button:hover, .btn:hover{
-  box-shadow:0 0 35px var(--neon-red-glow), 0 0 15px rgba(255,30,30,.8);
-  transform:translateY(-2px) scale(1.01);background:#FF3333;
-}
-button:active, .btn:active{ transform:translateY(1px) scale(0.98); }
-
-.btn.cyan{
-  background:transparent;border:2px solid var(--neon-cyan);color:var(--neon-cyan);
-  box-shadow:0 0 15px var(--neon-cyan-glow);
-}
-.btn.cyan:hover{background:var(--neon-cyan);color:#000;box-shadow:0 0 30px var(--neon-cyan);}
-
-.btn-details {
-  background: transparent; border: 1px solid var(--line); color: var(--muted);
-  font-size: 0.88rem; padding: 10px 16px; border-radius: 8px; cursor: pointer;
-  width: 100%; margin-top: 12px; transition: all 0.3s;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
-.btn-details:hover { border-color: var(--neon-cyan); color: #FFF; background: rgba(0,240,255,0.05); }
-
-/* Audio Button */
-.audio-btn {
-  position: fixed; bottom: 20px; left: 20px; z-index: 2500;
-  background: var(--surface2); border: 1px solid var(--neon-cyan);
-  color: var(--neon-cyan); padding: 10px 16px; border-radius: 30px;
-  font-weight: 800; font-size: 0.85rem; box-shadow: 0 0 15px var(--neon-cyan-glow);
-  cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.3s;
-}
-.audio-btn:hover { transform: scale(1.05); background: var(--neon-cyan); color: #000; }
-
-/* Navbar & Mobile Menu Drawer */
-nav{
-  position:sticky;top:0;z-index:2000;background:rgba(3,3,5,0.95);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--line);
-}
-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:75px;}
-
-.brand-standard {
-  font-family:'Permanent Marker',cursive;color:var(--neon-red);font-size:2rem;
-  text-shadow:0 0 15px var(--neon-red-glow); display:inline-block; letter-spacing: 1px;
-}
-
-.navlinks{display:flex;gap:20px;font-size:0.95rem;font-weight:700;align-items:center;}
-.navlinks a{transition:all .2s;}
-.navlinks a:hover{color:var(--neon-cyan);text-shadow:0 0 10px var(--neon-cyan-glow);}
-
-/* Mobile Menu Toggle Icon */
-.menu-burger {
-  display: none; flex-direction: column; justify-content: space-between;
-  width: 30px; height: 21px; background: transparent; border: none; cursor: pointer; z-index: 2001;
-}
-.menu-burger span {
-  display: block; width: 100%; height: 3px; background: var(--neon-cyan); border-radius: 3px;
-  transition: all 0.3s ease-in-out; box-shadow: 0 0 8px var(--neon-cyan-glow);
-}
-
-.user-badge{
-  background:linear-gradient(135deg, rgba(245,176,39,0.2), rgba(0,240,255,0.2));
-  border:1px solid var(--gold);padding:5px 12px;border-radius:20px;
-  font-size:0.8rem;font-weight:800;color:var(--gold);display:flex;align-items:center;gap:6px;
-}
-
-/* Hero Section */
-.hero{padding:70px 0 50px;text-align:center;}
-.hero h1{font-size:clamp(2rem, 5.5vw, 4rem);line-height:1.25;font-weight:900;}
-.hero h1 span{color:var(--neon-red);text-shadow:0 0 30px var(--neon-red-glow);}
-.hero p.lead{font-size:1.05rem;max-width:680px;margin:15px auto 30px;color:#CBD5E0;padding: 0 10px;}
-
-/* Services Grid */
-.sec-head{text-align:center;max-width:700px;margin:0 auto 35px;padding: 0 15px;}
-.sec-head h2{font-size:clamp(1.8rem, 4.5vw, 2.5rem);}
-.sec-head h2 span{color:var(--neon-cyan);text-shadow:0 0 20px var(--neon-cyan-glow);}
-
-.svc-grid-modern {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.svc-card-modern {
-  position: relative; background: var(--surface2); border: 1px solid var(--line);
-  border-radius: 16px; padding: 25px 20px; display: flex; flex-direction: column;
-  justify-content: space-between; overflow: hidden; backdrop-filter: blur(15px);
-  transition: all 0.3s ease;
-}
-.svc-card-modern:hover {
-  border-color: var(--neon-cyan); transform: translateY(-4px); box-shadow: 0 8px 25px var(--neon-cyan-glow);
-}
-.svc-card-modern.vip-style { border-color: rgba(255, 30, 30, 0.4); }
-.svc-card-modern.vip-style:hover { border-color: var(--neon-red); box-shadow: 0 8px 25px var(--neon-red-glow); }
-
-.price-tag-modern {
-  display: inline-block; background: rgba(245, 176, 39, 0.15); border: 1px solid var(--gold);
-  color: var(--gold); font-weight: 800; padding: 5px 12px; border-radius: 20px;
-  font-size: 0.88rem; margin-bottom: 12px; box-shadow: 0 0 10px rgba(245, 176, 39, 0.2);
-}
-
-.badge-vip {
-  position: absolute; top: 12px; left: 12px; background: var(--neon-red);
-  color: #fff; font-size: 0.7rem; font-weight: 900; padding: 3px 10px;
-  border-radius: 8px; letter-spacing: 1px; box-shadow: 0 0 12px var(--neon-red-glow); z-index: 2;
-}
-
-/* Detailed Expandable Section */
-.detail-expand-box {
-  display: none; margin-top: 25px; animation: fadeIn 0.4s ease-in-out;
-}
-.detail-expand-box.active { display: block; }
-
-.detail-card {
-  background: var(--surface); border: 1px solid var(--neon-cyan); border-radius: 16px;
-  overflow: hidden; backdrop-filter: blur(15px); display: grid; grid-template-columns: 1fr 1fr;
-  gap: 20px; align-items: center; box-shadow: 0 0 30px var(--neon-cyan-glow);
-}
-.detail-card.vip-theme { border-color: var(--neon-red); box-shadow: 0 0 30px var(--neon-red-glow); }
-.detail-img { width: 100%; height: 100%; min-height: 240px; object-fit: cover; }
-.detail-desc { padding: 25px; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Lounge Catering Section */
-.catering-card{
-  background:var(--surface);border:1px solid var(--line);border-radius:16px;
-  overflow:hidden;backdrop-filter:blur(15px);display:grid;grid-template-columns:1fr 1fr;
-  gap:20px;align-items:center;margin-top:25px;
-}
-.catering-img{width:100%;height:100%;min-height:240px;object-fit:cover;}
-.catering-desc{padding:25px;}
-
-/* Location & Social Section */
-.location-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 25px; align-items: center; margin-top: 25px;
-}
-.social-links { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-.social-btn {
-  padding: 10px 16px; border-radius: 10px; font-weight: 800; font-size: 0.88rem;
-  display: inline-flex; align-items: center; gap: 8px; background: var(--surface2);
-  border: 1px solid var(--line); transition: all 0.3s;
-}
-.social-btn:hover {
-  border-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan-glow); color: var(--neon-cyan);
-}
-.social-btn.wa { border-color: #25D366; color: #25D366; }
-.social-btn.wa:hover { background: #25D366; color: #000; box-shadow: 0 0 20px rgba(37,211,102,0.6); }
-
-/* Inputs & Auth Modal */
-input,select,textarea{
-  font-family:inherit;background:rgba(22,25,34,0.9);border:1px solid var(--line);color:var(--text);
-  border-radius:8px;padding:14px 16px;font-size:1rem;width:100%;transition:all .3s;
-}
-input:focus,select:focus{outline:none;border-color:var(--neon-cyan);box-shadow:0 0 15px var(--neon-cyan-glow);}
-label{display:block;font-size:0.88rem;color:var(--muted);margin-bottom:6px;font-weight:700;}
-
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);
-  z-index:3000;display:flex;align-items:center;justify-content:center;padding:15px;
-  opacity:0;pointer-events:none;transition:opacity .3s;
-}
-.modal-overlay.active{opacity:1;pointer-events:auto;}
-.auth-box{
-  background:var(--surface2);border:1px solid var(--neon-cyan);padding:30px 20px;
-  border-radius:16px;max-width:400px;width:100%;box-shadow:0 0 35px var(--neon-cyan-glow);
-  transform:scale(0.9);transition:transform .3s;
-}
-.modal-overlay.active .auth-box{transform:scale(1);}
-
-footer{padding:40px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line);font-size: 0.9rem;}
-
-/* Responsive Adaptations for Tablets & Mobiles */
-@media(max-width: 900px){
-  .catering-card, .location-grid, .detail-card { grid-template-columns: 1fr; }
-  .catering-card img, .detail-card img { order: -1; }
-}
-
-@media(max-width: 768px){
-  .menu-burger { display: flex; }
-  .navlinks {
-    position: fixed; top: 75px; right: -100%; width: 100%; height: calc(100vh - 75px);
-    background: rgba(3,3,5,0.98); backdrop-filter: blur(25px);
-    flex-direction: column; justify-content: center; align-items: center; gap: 25px;
-    transition: right 0.4s ease-in-out; border-left: 1px solid var(--line);
-    font-size: 1.2rem; z-index: 1999;
-  }
-  .navlinks.active { right: 0; }
-  .hero { padding: 40px 0 30px; }
-  section { padding: 45px 0; }
-  .audio-btn { bottom: 12px; left: 12px; padding: 7px 12px; font-size: 0.75rem; }
-  #bookForm { grid-template-columns: 1fr !important; }
-}
-</style>
-</head>
-<body>
-
-<audio id="bgAudio" loop preload="auto">
-  <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
-</audio>
-
-<button class="audio-btn" id="audioToggle" onclick="toggleAudio()">
-  <span id="audioIcon">🎵</span> <span id="audioText">الصوت: شغال</span>
-</button>
-
-<div class="image-slider-container">
-  <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1920');"></div>
-  <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1920');"></div>
-  <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1920');"></div>
-  <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920');"></div>
-  <div class="bg-overlay"></div>
-</div>
-
-<div id="introOverlay">
-  <div class="intro-brand">FAST X</div>
-  <p style="font-size: 1.1rem; color: #CBD5E0; max-width: 450px; margin-bottom: 25px; padding: 0 15px;">مرحباً بك في المكان الأقوى للترفيه والألعاب. استعد لتجربة عالمية.</p>
-  <button class="btn" style="font-size:1.2rem; padding: 16px 35px;" onclick="enterWebsite()">دخول FAST X 🚀</button>
-</div>
-
-<nav>
-  <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-    <a href="#home" class="brand-standard">FAST X</a>
-    
-    <div class="navlinks" id="navLinks">
-      <a href="#home" onclick="toggleMenu()">الرئيسية</a>
-      <a href="#services" onclick="toggleMenu()">الخدمات والأقسام</a>
-      <a href="#catering" onclick="toggleMenu()">الضيافة والكافيه</a>
-      <a href="#location" onclick="toggleMenu()">الموقع والتواصل</a>
-      <a href="#booking" onclick="toggleMenu()">احجز الآن</a>
-    </div>
-
-    <div style="display:flex; align-items:center; gap:10px;">
-      <div id="userArea">
-        <button class="btn cyan" style="padding:7px 12px;font-size:0.8rem;" onclick="openAuthModal()">دخول / نقاطك 💎</button>
-      </div>
-      <button class="menu-burger" id="menuBtn" onclick="toggleMenu()" aria-label="القائمة">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</nav>
-
-<main id="home-view">
-  <section class="hero" id="home">
-    <div class="wrap reveal">
-      <h1>أقوى مجمع ألعاب وترفيه في <span>FAST X</span></h1>
-      <p class="lead">استمتع بأفضل تجربة ألعاب ومحاكاة واقعية: أجهزة PS5 VIP، محاكيات سباق Moza R5، طاولات بلياردو، وقاعات سينما خاصة.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
-        <a class="btn" href="#booking" style="padding:12px 22px;">احجز رومك دلوقتي</a>
-        <a class="btn cyan" href="#services" style="padding:12px 22px;">استكشف الأقسام</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="services">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>أقسام <span>التجربة والخدمات</span></h2>
-        <p>تجهيزات احترافية وعزل صوت كامل في كل قسم.</p>
-      </div>
-
-      <div class="svc-grid-modern">
-        <div class="svc-card-modern reveal">
-          <div>
-            <span class="price-tag-modern">80 ج / ساعة</span>
-            <h3 style="font-size:1.35rem; margin-bottom:8px;">بلايستيشن عادية</h3>
-            <p style="font-size:0.9rem;">صالة مفتوحة ولعب جماعي بشاشات 4K 120Hz ومقاعد مريحة.</p>
-          </div>
-          <div>
-            <a href="#booking" class="btn cyan" style="width:100%; margin-top:12px; padding:10px;">احجز الآن</a>
-            <button class="btn-details" onclick="showDetail('detail-ps-normal')">تفاصيل الخدمة 👇</button>
-          </div>
-        </div>
-
-        <div class="svc-card-modern vip-style reveal">
-          <span class="badge-vip">VIP</span>
-          <div>
-            <span class="price-tag-modern" style="background:rgba(255,30,30,0.2); border-color:var(--neon-red); color:#FF5555;">150 ج / ساعة</span>
-            <h3 style="font-size:1.35rem; margin-bottom:8px;">بلايستيشن VIP (برايفت)</h3>
-            <p style="font-size:0.9rem;">غرف مغلقة بعزل صوت كامل، كنب جلد، وإضاءات RGB تفاعلية.</p>
-          </div>
-          <div>
-            <a href="#booking" class="btn" style="width:100%; margin-top:12px; padding:10px;">احجز VIP</a>
-            <button class="btn-details" onclick="showDetail('detail-ps-vip')">تفاصيل الخدمة 👇</button>
-          </div>
-        </div>
-
-        <div class="svc-card-modern reveal">
-          <span class="badge-vip" style="background:var(--neon-cyan); color:#000;">PRO</span>
-          <div>
-            <span class="price-tag-modern">200 ج / ساعة</span>
-            <h3 style="font-size:1.35rem; margin-bottom:8px;">محاكيات السباق</h3>
-            <p style="font-size:0.9rem;">تجربة سباق حقيقية بأنظمة Moza R5 وشاشات ثلاثية Triple 32".</p>
-          </div>
-          <div>
-            <a href="#booking" class="btn cyan" style="width:100%; margin-top:12px; padding:10px;">انطلق للسباق</a>
-            <button class="btn-details" onclick="showDetail('detail-sim')">تفاصيل الخدمة 👇</button>
-          </div>
-        </div>
-
-        <div class="svc-card-modern reveal">
-          <div>
-            <span class="price-tag-modern">350 ج / ساعة</span>
-            <h3 style="font-size:1.35rem; margin-bottom:8px;">قاعة السينما الخاصة</h3>
-            <p style="font-size:0.9rem;">قاعة سينمائية تتسع لـ 8-10 أفراد بشاشة عملاقة ونظام صوت Dolby Atmos.</p>
-          </div>
-          <div>
-            <a href="#booking" class="btn cyan" style="width:100%; margin-top:12px; padding:10px;">احجز السينما</a>
-            <button class="btn-details" onclick="showDetail('detail-cinema')">تفاصيل الخدمة 👇</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="detailsContainer" style="margin-top: 15px;">
-        <div id="detail-ps-normal" class="detail-expand-box">
-          <div class="detail-card">
-            <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=800" class="detail-img" alt="صالة البلايستيشن العادية">
-            <div class="detail-desc">
-              <h3 style="font-size:1.4rem; color:var(--neon-cyan); margin-bottom:10px;">صالة البلايستيشن العادية العامة</h3>
-              <p style="font-size:0.92rem; line-height:1.7;">أجواء حماسية وتحدي مع أصحابك. مجهزة بأحدث أجهزة PS5 وشاشات 55 بوصة بدقة 4K ومعدل تحديث 120Hz لأعلى سلاسة.</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="detail-ps-vip" class="detail-expand-box">
-          <div class="detail-card vip-theme">
-            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800" class="detail-img" alt="بلايستيشن VIP">
-            <div class="detail-desc">
-              <h3 style="font-size:1.4rem; color:var(--neon-red); margin-bottom:10px;">رومات البلايستيشن VIP (خصوصية مطلقة)</h3>
-              <p style="font-size:0.92rem; line-height:1.7;">غرفة مغلقة خاصة بك: عزل صوت هيدروليكي ممتاز، شاشة 65 بوصة 4K OLED، كنب جلد، ونظام صوتي Soundbar تفاعلي.</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="detail-sim" class="detail-expand-box">
-          <div class="detail-card">
-            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800" class="detail-img" alt="محاكي سباق">
-            <div class="detail-desc">
-              <h3 style="font-size:1.4rem; color:var(--neon-cyan); margin-bottom:10px;">أنظمة محاكاة السيارات Moza R5</h3>
-              <p style="font-size:0.92rem; line-height:1.7;">تجربة سباقات الحلبات والدريفت الحقيقية مع أنظمة Moza R5 Direct Drive وشاشات منحنية ثلاثية Triple 32 برؤية 180 درجة.</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="detail-cinema" class="detail-expand-box">
-          <div class="detail-card vip-theme">
-            <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=800" class="detail-img" alt="سينما خاصة">
-            <div class="detail-desc">
-              <h3 style="font-size:1.4rem; color:var(--neon-red); margin-bottom:10px;">قاعة السينما الخاصة VIP Cinema Room</h3>
-              <p style="font-size:0.92rem; line-height:1.7;">تجربة سينمائية مستقلة تسع من 8 إلى 10 أفراد بشاشة بروجكتور 4K عملاقة، صوت محيطي، ومقاعد Lazy Boy.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="catering">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>ضيافة فاخرة <span>تليق بجلسة اللعب</span></h2>
-        <p>مشروبات طازجة ومأكولات ساخنة تصلك مباشرة داخل الروم.</p>
-      </div>
-
-      <div class="catering-card reveal">
-        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=800" alt="FAST X Refreshments" class="catering-img">
-        <div class="catering-desc">
-          <h3 style="font-size:1.4rem;color:var(--neon-cyan);">مشروبات باردة وقهوة مختصة</h3>
-          <p style="font-size:0.92rem;">من الإسبريسو والقهوة المثلجة إلى مشروبات الطاقة الباردة لمساعدة على التركيز المستمر.</p>
-        </div>
-      </div>
-
-      <div class="catering-card reveal" style="margin-top:20px;">
-        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=800" alt="FAST X Food" class="catering-img">
-        <div class="catering-desc">
-          <h3 style="font-size:1.4rem;color:var(--neon-red);">سناكس ووجبات سريعة ساخنة</h3>
-          <p style="font-size:0.92rem;">تشكيلة مختارة من البرجر الساخن، السندوتشات السريعة، وأطباق البطاطس المتبلة الساخنة أثناء اللعب.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="location">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>عنوان المكان <span>والتواصل المباشر</span></h2>
-        <p>زورنا في الفرع الرئيسي أو تواصل معنا مباشرة.</p>
-      </div>
-
-      <div class="location-grid reveal">
-        <div style="background:var(--surface);padding:25px;border-radius:16px;border:1px solid var(--line);">
-          <h3 style="font-size:1.4rem;color:var(--neon-cyan);margin-bottom:12px;">📍 عنوان FAST X Lounge</h3>
-          <p style="font-size:0.98rem;color:#FFF;margin-bottom:10px;">المريوطية - فيصل، الجيزة، مصر</p>
-          <p style="font-size:0.9rem;">ساعات العمل: يومياً من **12:00 ظهراً** حتى **04:00 صباحاً**.</p>
-          
-          <div class="social-links">
-            <a href="https://wa.me/201000000000" target="_blank" class="social-btn wa">💬 واتساب</a>
-            <a href="https://facebook.com" target="_blank" class="social-btn">📘 فيسبوك</a>
-            <a href="https://instagram.com" target="_blank" class="social-btn">📸 إنستجرام</a>
-          </div>
-        </div>
-
-        <div style="border-radius:16px;overflow:hidden;border:1px solid var(--line);min-height:260px;">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13818.04838605051!2d31.1408!3d29.9932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145845c43d3e813f%3A0x6b7bd1a9c3365fae!2sMarioutiya%2C%20Faisal!5e0!3m2!1sen!2seg!4v1710000000000!5m2!1sen!2seg" 
-            width="100%" height="260" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="booking">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <h2>احجز رومك <span>المفضل فوراً</span></h2>
-      </div>
-      
-      <form class="reveal" id="bookForm" style="max-width:700px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:15px;">
-        <div><label for="bName">الاسم بالكامل</label><input required id="bName" placeholder="محمود سليمان"></div>
-        <div><label for="bPhone">رقم الموبايل</label><input required type="tel" id="bPhone" placeholder="01xxxxxxxxx"></div>
-        <div>
-          <label for="bService">الخدمة المطلوبة</label>
-          <select id="bService">
-            <option>بلايستيشن عادي</option>
-            <option>بلايستيشن VIP</option>
-            <option>محاكي سيارات</option>
-            <option>سينما خاصة</option>
-          </select>
-        </div>
-        <div><label for="bDate">تاريخ الحجز</label><input type="date" id="bDate" required></div>
-        <div style="grid-column:1/-1;"><button type="submit" style="width:100%; padding:14px;">تأكيد وإرسال الحجز عبر الواتساب 🚀</button></div>
-      </form>
-    </div>
-  </section>
-
-  <footer>
-    <p>FAST X Lounge & Gaming Hub &copy; 2026 — جميع الحقوق محفوظة | المريوطية - فيصل</p>
-  </footer>
-</main>
-
-<div class="modal-overlay" id="authModal">
-  <div class="auth-box">
-    <h2 style="text-align:center;margin-bottom:8px;font-size:1.3rem;" id="authTitle">تسجيل الدخول / نقاطك</h2>
-    <p style="text-align:center;font-size:0.82rem;margin-bottom:18px;">اكسب **10 نقاط X-Points** مع كل ساعة لعب واستبدلها برومات مجانية!</p>
-    
-    <form id="loginForm" onsubmit="handleLogin(event)">
-      <div style="margin-bottom:12px;"><label>اسم المستخدم أو رقم الموبايل</label><input id="uName" required placeholder="ادخل اسمك"></div>
-      <button type="submit" style="width:100%;margin-top:5px;">دخول واستعراض النقاط</button>
-      <button type="button" class="btn cyan" style="width:100%;margin-top:8px;" onclick="closeAuthModal()">إلغاء</button>
-    </form>
-  </div>
-</div>
-
+:root{--bg:#000;--pn:#141414;--ln:#2c2c2c;--tx:#f4f4f4;--mu:#9a9a9a;--ac:#ff1a1a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px "Segoe UI",Tahoma,system-ui,sans-serif;padding-bottom:84px}
+header{padding:12px 16px;border-bottom:2px solid var(--ac);display:flex;justify-content:space-between;gap:8px}
+header b{font-size:18px}.mu{color:var(--mu)}
+.bill{margin:12px 16px;background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:14px}
+#clk{font-size:42px;font-weight:800;text-align:center;letter-spacing:2px;direction:ltr}
+.r{display:flex;justify-content:space-between;gap:8px;padding:4px 0}
+.tot{border-top:1px solid var(--ln);margin-top:6px;padding-top:8px;font-size:20px;font-weight:800}
+h2{font-size:17px;color:var(--mu);margin:16px 16px 8px}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:0 16px}
+.it{background:var(--pn);border:1px solid var(--ln);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px;cursor:pointer;color:var(--tx);font:inherit;text-align:start}
+.it:active{border-color:var(--ac)}.it span{color:var(--mu)}
+.it .n{align-self:flex-end;background:var(--ac);color:#fff;border-radius:12px;padding:0 9px;font-weight:700}
+#bar{position:fixed;inset:auto 0 0 0;background:#0d0d0d;border-top:2px solid var(--ac);padding:10px 14px;display:flex;gap:10px;align-items:center}
+#bar button,.pb{font:inherit;border:0;border-radius:10px;padding:12px 18px;font-weight:700;color:#fff;background:var(--ac);cursor:pointer}
+#bar .t{flex:1}
+#cart{position:fixed;inset:0;background:#000d;display:none;align-items:flex-end;justify-content:center;z-index:5}
+#cart .b{background:var(--pn);width:min(560px,100%);max-height:85vh;overflow:auto;border-radius:16px 16px 0 0;padding:16px}
+.ln{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--ln)}
+.ln span{flex:1}.ln button{font:inherit;color:var(--tx);background:#222;border:1px solid var(--ln);border-radius:8px;width:38px;height:38px;cursor:pointer}
+input{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:10px;width:100%}
+#msg{position:fixed;inset:0;background:#000;display:none;align-items:center;justify-content:center;text-align:center;font-size:22px;padding:20px;z-index:9;flex-direction:column;gap:14px}
+</style></head><body>
+<header><b id="sn">...</b><span class="mu" id="shop"></span></header>
+<div class="bill"><div id="clk">00:00:00</div>
+<div class="r mu"><span>حساب الوقت</span><b id="tc">-</b></div>
+<div id="items"></div>
+<div class="r tot"><span>الإجمالي</span><span id="tt">-</span></div></div>
+<div id="sent"></div>
+<div id="m"></div>
+<div id="bar"><div class="t" id="sum">اختار من المنيو</div><button onclick="openCart()">السلة</button></div>
+<div id="cart" onclick="if(event.target==this)this.style.display='none'"><div class="b"><h3 style="margin:0 0 8px">طلبك</h3><div id="cl"></div>
+<input id="nt" maxlength="150" placeholder="ملاحظات (اختياري)" style="margin:12px 0">
+<div style="display:flex;gap:8px"><button class="pb" id="send" onclick="sendO()" style="flex:1">إرسال الطلب</button><button class="pb" style="background:#222" onclick="document.getElementById('cart').style.display='none'">رجوع</button></div></div></div>
+<div id="msg"><div id="mt"></div></div>
 <script>
-let isAudioPlaying = false;
-
-function startImageSlider() {
-  const slides = document.querySelectorAll('.bg-slide');
-  let currentSlide = 0;
-  setInterval(() => {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add('active');
-  }, 5000);
-}
-
-function enterWebsite() {
-  document.getElementById('introOverlay').classList.add('hidden');
-  const audio = document.getElementById('bgAudio');
-  if(audio) {
-    audio.volume = 0.4;
-    audio.play().then(() => {
-      isAudioPlaying = true;
-      updateAudioBtn();
-    }).catch(e => console.log("Audio Autoplay handled", e));
-  }
-  setupScrollReveal();
-}
-
-function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.toggle('active');
-}
-
-function showDetail(detailId) {
-  const targetBox = document.getElementById(detailId);
-  const isAlreadyActive = targetBox.classList.contains('active');
-  document.querySelectorAll('.detail-expand-box').forEach(box => box.classList.remove('active'));
-  if (!isAlreadyActive) {
-    targetBox.classList.add('active');
-    targetBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-}
-
-function toggleAudio() {
-  const audio = document.getElementById('bgAudio');
-  if (!audio) return;
-  if (isAudioPlaying) {
-    audio.pause();
-    isAudioPlaying = false;
-  } else {
-    audio.volume = 0.4;
-    audio.play();
-    isAudioPlaying = true;
-  }
-  updateAudioBtn();
-}
-
-function updateAudioBtn() {
-  const icon = document.getElementById('audioIcon');
-  const text = document.getElementById('audioText');
-  if (isAudioPlaying) {
-    icon.innerText = "🎵"; text.innerText = "الصوت: شغال";
-  } else {
-    icon.innerText = "🔇"; text.innerText = "الصوت: مكتوم";
-  }
-}
-
-function setupScrollReveal() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-}
-
-function openAuthModal(){ document.getElementById('authModal').classList.add('active'); }
-function closeAuthModal(){ document.getElementById('authModal').classList.remove('active'); }
-
-function handleLogin(e){
-  e.preventDefault();
-  const name = document.getElementById('uName').value;
-  if(name){
-    localStorage.setItem('fastx_user', name);
-    updateUserBadge(name, 120);
-    closeAuthModal();
-  }
-}
-
-function updateUserBadge(name, points){
-  const userArea = document.getElementById('userArea');
-  userArea.innerHTML = `
-    <div class="user-badge">
-      <span>👤 ${name}</span> | <span>💎 ${points}</span>
-    </div>
-  `;
-}
-
-window.addEventListener('DOMContentLoaded', ()=>{
-  startImageSlider();
-  const savedUser = localStorage.getItem('fastx_user');
-  if(savedUser){ updateUserBadge(savedUser, 120); }
-  if(document.getElementById('bDate')){
-    document.getElementById('bDate').min = new Date().toISOString().split('T')[0];
-    document.getElementById('bDate').value = new Date().toISOString().split('T')[0];
-  }
-});
-
-document.getElementById('bookForm').addEventListener('submit', e=>{
-  e.preventDefault();
-  const name=document.getElementById('bName').value, phone=document.getElementById('bPhone').value, svc=document.getElementById('bService').value;
-  const date=document.getElementById('bDate').value;
-  const text=`حجز جديد عبر موقع FAST X%0Aالاسم: ${name}%0Aالموبايل: ${phone}%0Aالخدمة: ${svc}%0Aالتاريخ: ${date}`;
-  window.open(`https://wa.me/201000000000?text=${text}`,'_blank');
-});
-</script>
-</body>
-</html>
+const $=s=>document.querySelector(s),r2=n=>Math.round(n*100)/100;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const K=(location.hash.match(/k=([A-Za-z0-9]+)/)||[])[1];
+let ST=null,MN=null,ENDED=false,C={},SENT=[];
+function say(t){$('#mt').innerHTML=t;$('#msg').style.display='flex'}
+if(!K)say('الرابط غير صحيح.<br><small class="mu">امسح الـ QR من الإيصال تاني</small>');
+else{say('جاري التحميل...');
+ const es=new EventSource('https://ntfy.sh/'+K+'/sse?since=12h');
+ es.onmessage=ev=>{try{const m=JSON.parse(ev.data);if(m.event!='message')return;const o=JSON.parse(m.message);
+  if(o.type=='state'){ST=o;ST._at=(m.time||Date.now()/1000)*1000;ENDED=false;SENT=SENT.filter(s=>s.t>ST._at)}
+  else if(o.type=='menu')MN=o;else if(o.type=='ended')ENDED=true;else return;refresh()}catch(e){}}}
+function elapsed(){if(!ST)return 0;return(ST.acc+(ST.start?Math.max(0,Date.now()-ST._at)+(ST._at-ST.start):0))/60000}
+function tAmt(m){const k=ST.k,r=ST.r;if(ST.pre){const o=m-ST.pre;return o>0?r2(Math.ceil(o/k)*k/60*r):0}
+ if(!(m>0))return 0;const sg=ST.sg||[],sm=sg.reduce((a,x)=>a+x.m,0),B=Math.max(ST.m,Math.ceil(m/k)*k);
+ return r2(sg.reduce((a,x)=>a+x.m/60*x.r,0)+Math.max(0,B-sm)/60*r)}
+function tick(){if(!ST)return;const m=elapsed(),s=Math.floor(m*60),p=n=>String(n).padStart(2,'0');
+ $('#clk').textContent=p(s/3600|0)+':'+p(s/60%60|0)+':'+p(s%60);
+ const ta=tAmt(m),sub=ST.L.reduce((a,l)=>a+l[1]*l[2],0),d=r2((sub+ta)*(ST.pct||0)/100);
+ $('#tc').textContent=ta+' '+(MN?MN.cur:'');$('#tt').textContent=Math.max(0,r2(sub+ta-d))+' '+(MN?MN.cur:'')}
+setInterval(tick,1000);
+function refresh(){
+ if(ENDED){say('انتهت الجلسة ✅<br><small class="mu">شكراً لزيارتكم</small>');return}
+ if(!ST||!MN)return;$('#msg').style.display='none';
+ $('#sn').textContent=ST.n;$('#shop').textContent=MN.shop;
+ $('#items').innerHTML=ST.L.map(l=>'<div class="r"><span>'+l[2]+' × '+esc(l[0])+'</span><span>'+r2(l[1]*l[2])+'</span></div>').join('')+(ST.pct?'<div class="r mu"><span>خصم '+ST.pct+'%</span></div>':'');
+ $('#sent').innerHTML=SENT.length?'<h2>طلباتك في انتظار الكاشير</h2><div class="bill">'+SENT.map(s=>s.l.map(l=>'<div>'+l.q+' × '+esc(l.n)+'</div>').join('')).join('<hr style="border-color:#2c2c2c">')+'</div>':'';
+ draw();tick()}
+function draw(){
+ if(!MN)return;
+ $('#m').innerHTML=[['Cafe','المشروبات'],['Restaurant','الأطعمة']].map(([c,t])=>{const l=MN.items.map((x,i)=>[x,i]).filter(a=>a[0][2]==c);
+  return l.length?'<h2>'+t+'</h2><div class="g">'+l.map(([x,i])=>'<button class="it" onclick="add('+i+')"><b>'+esc(x[0])+'</b><span>'+x[1]+' '+esc(MN.cur)+'</span>'+(C[i]?'<div class="n">'+C[i]+'</div>':'')+'</button>').join('')+'</div>':''}).join('');
+ const q=Object.values(C).reduce((a,b)=>a+b,0),t=Object.entries(C).reduce((a,[i,n])=>a+MN.items[i][1]*n,0);
+ $('#sum').textContent=q?q+' صنف - '+t+' '+MN.cur:'اختار من المنيو'}
+function add(i){C[i]=(C[i]||0)+1;draw()}
+function dec(i){if(--C[i]<=0)delete C[i];draw();openCart()}
+function openCart(){const e=Object.entries(C);
+ $('#cl').innerHTML=e.length?e.map(([i,n])=>'<div class="ln"><span>'+esc(MN.items[i][0])+'</span><button onclick="dec('+i+')">−</button><b>'+n+'</b><button onclick="add('+i+');openCart()">+</button></div>').join(''):'<p class="mu">السلة فاضية</p>';
+ $('#cart').style.display='flex'}
+async function sendO(){const e=Object.entries(C);if(!e.length||!K)return;
+ const lines=e.map(([i,n])=>({n:MN.items[i][0],c:MN.items[i][2],q:n}));
+ const o={type:'order',id:Date.now()+''+Math.floor(Math.random()*1e4),ts:Date.now(),note:$('#nt').value.trim(),lines};
+ const b=$('#send');b.disabled=true;b.textContent='...';
+ try{const r=await fetch('https://ntfy.sh/'+K,{method:'POST',body:JSON.stringify(o)});if(!r.ok)throw 0;
+  SENT.push({t:Date.now(),l:lines});setTimeout(()=>{SENT=SENT.filter(s=>Date.now()-s.t<3e5);refresh()},3e5);
+  C={};$('#nt').value='';$('#cart').style.display='none';refresh()}
+ catch(x){alert('تعذر إرسال الطلب، تأكد من الإنترنت وحاول تاني')}
+ b.disabled=false;b.textContent='إرسال الطلب'}
+</script></body></html>
