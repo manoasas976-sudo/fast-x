@@ -44,6 +44,8 @@ header img{height:42px;display:block}
 .it{background:var(--pn);border:1px solid var(--ln);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;color:var(--tx);min-height:104px;position:relative}
 .it.has{border-color:var(--ac);background:#1a0a0a}
 .it b{font-size:15.5px;line-height:1.3}
+.it .top{display:flex;align-items:center;gap:10px}
+.th{width:50px;height:50px;border-radius:12px;background:#222 center/cover no-repeat;flex:none}
 .it .pz{color:var(--mu);font-size:14px}
 .it .ct{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:6px}
 .add{font:inherit;font-weight:700;font-size:14px;background:var(--ac);color:#fff;border:0;border-radius:10px;padding:7px 12px;cursor:pointer;width:100%}
@@ -97,7 +99,7 @@ const $=s=>document.querySelector(s),r2=n=>Math.round(n*100)/100;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const K=(location.hash.match(/k=([A-Za-z0-9]+)/)||[])[1];
 const CATS={Cafe:'المشروبات',Restaurant:'الأطعمة'};
-let ST=null,MN=null,ENDED=false,C={},SENT=[],TAB='all';
+let ST=null,MN=null,ENDED=false,C={},SENT=[],TAB='all',IM={};
 const p2=n=>String(n).padStart(2,'0'),hms=s=>{s=Math.max(0,Math.floor(s));return p2(s/3600|0)+':'+p2(s/60%60|0)+':'+p2(s%60)};
 function say(t){$('#mt').innerHTML=t;$('#msg').style.display='flex'}
 function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2600)}
@@ -106,7 +108,7 @@ else{say('جاري التحميل...');
  const es=new EventSource('https://ntfy.sh/'+K+'/sse?since=12h');
  es.onmessage=ev=>{try{const m=JSON.parse(ev.data);if(m.event!='message')return;const o=JSON.parse(m.message);
   if(o.type=='state'){ST=o;ST._at=(m.time||Date.now()/1000)*1000;ENDED=false;SENT=SENT.filter(s=>s.t>ST._at)}
-  else if(o.type=='menu')MN=o;else if(o.type=='ended')ENDED=true;else return;refresh()}catch(e){}}}
+  else if(o.type=='menu'){newMenu(o)}else if(o.type=='img'){if(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(o.u||''))IM[o.n+'|'+o.c]=o.u}else if(o.type=='ended')ENDED=true;else return;refresh()}catch(e){}}}
 function elapsed(){if(!ST)return 0;return(ST.acc+(ST.start?Math.max(0,Date.now()-ST._at)+(ST._at-ST.start):0))/60000}
 function tAmt(m){const k=ST.k,r=ST.r;if(ST.pre){const o=m-ST.pre;return o>0?r2(Math.ceil(o/k)*k/60*r):0}
  if(!(m>0))return 0;const sg=ST.sg||[],sm=sg.reduce((a,x)=>a+x.m,0),B=Math.max(ST.m,Math.ceil(m/k)*k);
@@ -131,24 +133,29 @@ function refresh(){
  $('#items').innerHTML=ST.L.map(l=>'<div class="r"><span>'+l[2]+' × '+esc(l[0])+'</span><span>'+r2(l[1]*l[2])+' '+esc(MN.cur)+'</span></div>').join('')+(ST.pct?'<div class="r" style="color:var(--ok)"><span>خصم '+ST.pct+'%</span></div>':'');
  $('#sent').innerHTML=SENT.length?'<div class="card sent"><h3>✔ طلباتك وصلت للكاشير وقيد التحضير</h3>'+SENT.map(s=>s.l.map(l=>'<div>'+l.q+' × '+esc(l.n)+'</div>').join('')).join('<hr style="border-color:#2c2c2c">')+'</div>':'';
  draw();tick()}
+const th=x=>{const u=IM[x[0]+'|'+x[2]];return u?'<div class="th" style="background-image:url('+u+')"></div>':''};
+const lim=i=>{const x=MN&&MN.items[i];return x&&x[3]>=0?x[3]:99};
+function newMenu(o){const old=MN;MN=o;if(!old){return}
+ const nc={};let cut=false;Object.entries(C).forEach(([i,n])=>{const x=old.items[i];if(!x)return;const j=MN.items.findIndex(y=>y[0]==x[0]&&y[2]==x[2]);if(j<0){cut=true;return}const m=Math.min(n,lim(j));if(m<n)cut=true;if(m>0)nc[j]=m});
+ C=nc;if(cut)toast('بعض الأصناف خلصت أو قلّت - اتعدّلت السلة')}
 function cats(){const o=[];MN.items.forEach(x=>{if(o.indexOf(x[2])<0)o.push(x[2])});return o}
 function draw(){
  if(!MN)return;const cs=cats();if(TAB!='all'&&cs.indexOf(TAB)<0)TAB='all';
  $('#tabs').innerHTML=cs.length>1?[['all','الكل']].concat(cs.map(c=>[c,CATS[c]||c])).map(([k,t])=>'<button class="tab'+(TAB==k?' on':'')+'" onclick="TAB=\''+k.replace(/'/g,'')+'\';draw()">'+esc(t)+'</button>').join(''):'';
  $('#tabs').style.display=cs.length>1?'flex':'none';
  $('#m').innerHTML=cs.filter(c=>TAB=='all'||TAB==c).map(c=>{const l=MN.items.map((x,i)=>[x,i]).filter(a=>a[0][2]==c);
-  return '<div class="cat">'+esc(CATS[c]||c)+'</div><div class="g">'+l.map(([x,i])=>'<div class="it'+(C[i]?' has':'')+'"><b>'+esc(x[0])+'</b><span class="pz">'+x[1]+' '+esc(MN.cur)+'</span><div class="ct">'+(C[i]?'<div class="st"><button onclick="add('+i+')">+</button><b>'+C[i]+'</b><button ">−</button></div>':'<button class="add" onclick="add('+i+')">+ إضافة</button>')+'</div></div>').join('')+'</div>'}).join('');
+  return '<div class="cat">'+esc(CATS[c]||c)+'</div><div class="g">'+l.map(([x,i])=>'<div class="it'+(C[i]?' has':'')+'"'+(x[3]===0?' style="opacity:.45"':'')+'><div class="top">'+th(x)+'<b>'+esc(x[0])+'</b></div><span class="pz">'+x[1]+' '+esc(MN.cur)+'</span><div class="ct">'+(C[i]?'<div class="st"><button '+(C[i]>=lim(i)?'disabled':'onclick="add('+i+')"')+'>+</button><b>'+C[i]+'</b><button ">−</button></div>':(x[3]===0?'<button class="add" disabled>خلصت</button>':'<button class="add" onclick="add('+i+')">+ إضافة</button>'))+'</div></div>').join('')+'</div>'}).join('');
  const q=Object.values(C).reduce((a,b)=>a+b,0),t=r2(Object.entries(C).reduce((a,[i,n])=>a+MN.items[i][1]*n,0));
  $('#sum').textContent=q?q+' صنف - '+t+' '+MN.cur:'اختار من المنيو';$('#sum2').textContent=q?'اضغط السلة لإرسال الطلب':'';
  const bd=$('#bd');bd.textContent=q;bd.style.display=q?'flex':'none'}
-function add(i){C[i]=(C[i]||0)+1;draw();if($('#cart').style.display=='flex')renderCart()}
+function add(i){if((C[i]||0)>=lim(i)){toast(lim(i)?'ده آخر المتاح من الصنف ده':'الصنف ده خلص');return}C[i]=(C[i]||0)+1;draw();if($('#cart').style.display=='flex')renderCart()}
 function dec(i){if(--C[i]<=0)delete C[i];draw();if($('#cart').style.display=='flex')renderCart()}
 function renderCart(){const e=Object.entries(C);
  if(!e.length){$('#cart').style.display='none';return}
- $('#cl').innerHTML=e.map(([i,n])=>'<div class="ln"><span>'+esc(MN.items[i][0])+'<small>'+MN.items[i][1]+' '+esc(MN.cur)+'</small></span><button onclick="dec('+i+')">−</button><b>'+n+'</b><button onclick="add('+i+')">+</button></div>').join('');
+ $('#cl').innerHTML=e.map(([i,n])=>'<div class="ln"><span>'+esc(MN.items[i][0])+'<small>'+MN.items[i][1]+' '+esc(MN.cur)+'</small></span><button onclick="dec('+i+')">−</button><b>'+n+'</b><button '+(n>=lim(i)?'disabled':'onclick="add('+i+')"')+'>+</button></div>').join('');
  $('#ct').textContent=r2(e.reduce((a,[i,n])=>a+MN.items[i][1]*n,0))+' '+MN.cur;$('#send').disabled=false;$('#cart').style.display='flex'}
 function openCart(){if(!MN)return;if(!Object.keys(C).length)return toast('السلة فاضية - اختار حاجة من المنيو');renderCart()}
-async function sendO(){const e=Object.entries(C);if(!e.length||!K)return;
+async function sendO(){const e=Object.entries(C);if(!e.length||!K)return;if(e.some(([i,n])=>n>lim(i))){newMenu(MN);renderCart();return}
  const lines=e.map(([i,n])=>({n:MN.items[i][0],c:MN.items[i][2],q:n}));
  const o={type:'order',id:Date.now()+''+Math.floor(Math.random()*1e4),ts:Date.now(),note:$('#nt').value.trim(),lines};
  const b=$('#send');b.disabled=true;b.textContent='...';
@@ -158,3 +165,4 @@ async function sendO(){const e=Object.entries(C);if(!e.length||!K)return;
  catch(x){alert('تعذر إرسال الطلب، تأكد من الإنترنت وحاول تاني')}
  b.disabled=false;b.textContent='إرسال الطلب للكاشير'}
 </script></body></html>
+
